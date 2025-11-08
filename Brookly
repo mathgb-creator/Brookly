@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookly - eBooks Profissionais</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+    body {
+      background-color: #f5f7fb;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* ====== CABEÇALHO ====== */
+    header {
+      background: linear-gradient(135deg, rgba(37,117,252,0.6), rgba(106,17,203,0.6));
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+    header h1 {
+      color: #000;
+      font-size: 3rem;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    header p {
+      font-size: 1.2rem;
+      color: #fff;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    /* ====== MENU ====== */
+    nav {
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      padding: 12px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    nav a {
+      margin: 0 20px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      transition: all 0.3s;
+      padding: 5px 12px;
+      border-radius: 5px;
+    }
+    nav a:hover {
+      color: #fff;
+      background-color: #2575fc;
+    }
+
+    /* ====== SEÇÃO ====== */
+    .section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .about {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 35px;
+      text-align: center;
+      margin-bottom: 50px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    .about h2 { margin-bottom: 20px; color: #2575fc; }
+    .about p { font-size: 1.1rem; color: #444; }
+
+    /* ====== EBOOKS ====== */
+    .ebook-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    .ebook {
+      width: 210px; /* diminuiu um pouco */
+      height: 300px; /* diminuiu um pouco */
+      background: linear-gradient(145deg, #2575fc, #6a11cb);
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+      position: relative;
+      cursor: pointer;
+      transform: perspective(900px) rotateY(-8deg);
+      transition: transform 0.4s ease, box-shadow 0.3s ease;
+    }
+    .ebook:hover {
+      transform: perspective(900px) rotateY(0deg) scale(1.05);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+    }
+    .ebook h3 {
+      font-size: 1.1rem; /* diminuiu */
+      margin-bottom: 12px;
+      color: #000; /* título em preto */
+    }
+    .ebook p {
+      font-size: 1rem; /* aumentou um pouco */
+      color: #fff; /* subtítulo branco */
+    }
+
+    /* ====== POPUP ====== */
+    .popup-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .popup {
+      background: rgba(37,117,252,0.9);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+      animation: popupFade 0.4s ease;
+      position: relative;
+    }
+    @keyframes popupFade {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .popup h3 {
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    .popup p {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #f0f0f0;
+    }
+    .popup button {
+      background: white;
+      color: #2575fc;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 25px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+    .popup button:hover {
+      background: #e3f2fd;
+    }
+    .close-popup {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: white;
+    }
+
+    /* ====== FOOTER ====== */
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 35px 20px;
+      margin-top: 50px;
+    }
+    footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    footer a:hover { color: #2575fc; }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Bookly</h1>
+    <p>Transforme sua leitura em conhecimento com nossos eBooks profissionais</p>
+  </header>
+
+  <!-- ====== MENU COM BOTÃO DE COMPARTILHAR COM ÍCONE 🔗 ====== -->
+  <nav>
+    <a href="#about">Sobre</a>
+    <a href="#ebooks">eBooks</a>
+    <a href="#contact">Contato</a>
+    <a href="#" id="shareBtn">Compartilhar 🔗</a>
+  </nav>
+
+  <section id="about" class="section about">
+    <h2>Sobre o autor</h2>
+    <p>Somos apaixonados por compartilhar conhecimento. Nossos eBooks foram criados com foco em aprendizado prático e conteúdo de qualidade, para ajudar você a evoluir em diferentes áreas da vida.</p>
+  </section>
+
+  <!-- ====== SEÇÃO EBOOKS ====== -->
+  <section id="ebooks" class="section">
+    <h2 style="text-align:center; color:#2575fc; margin-bottom:30px;">Nossos eBooks</h2>
+    <div class="ebook-grid">
+      <div class="ebook" onclick="openPopup(1)">
+        <h3>Aprenda a Ler Mais Rápido</h3>
+        <p>Técnicas práticas para ler com foco e agilidade.</p>
+      </div>
+
+      <div class="ebook" onclick="openPopup(2)">
+        <h3>Produtividade Máxima</h3>
+        <p>Estratégias de foco e gestão de tempo.</p>
+      </div>
+
+      <div class="ebook" onclick="openPopup(3)">
+        <h3>Mindset de Sucesso</h3>
+        <p>Hábitos e atitudes das pessoas de sucesso.</p>
+      </div>
+
+      <div class="ebook" onclick="openPopup(4)">
+        <h3>Investimento em Criptomoedas</h3>
+        <p>Guia essencial para começar com segurança.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== POPUPS ====== -->
+  <div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+    <div class="popup" id="popupBox">
+      <span class="close-popup" onclick="closePopup(event)">&times;</span>
+      <h3 id="popupTitle"></h3>
+      <p id="popupText"></p>
+      <button>Comprar via Pix</button>
+    </div>
+  </div>
+
+  <!-- ====== SEÇÃO SEGURANÇA (VERSÃO ANTIGA) ====== -->
+  <section id="security" class="section about" style="background: linear-gradient(135deg, #e3f2fd, #ffffff); border: 1px solid #d0e3ff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-radius: 15px;">
+    <h2 style="color:#2575fc; text-align:center; margin-bottom:20px; font-size:2rem;">🔒 Segurança nas Compras</h2>
+    <p style="text-align:center; max-width:800px; margin:0 auto; font-size:1.1rem; color:#444; line-height:1.6;">
+      Sua compra é <strong>100% segura!</strong> Utilizamos pagamentos via <strong>Pix confiáveis</strong> 💰, e garantimos 
+      <strong>atendimento rápido</strong> ⚡ e <strong>suporte completo</strong> 💬 para qualquer dúvida.  
+      Comprar conosco é simples, rápido e totalmente seguro. ✅
+    </p>
+
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; margin-top:40px; gap:50px;">
+      <div style="text-align:center; width:200px;">
+        <h3 style="color:#2575fc; margin-top:10px;">💳 Pagamento Seguro</h3>
+        <p style="color:#555; font-size:0.95rem;">Transações rápidas e protegidas via Pix.</p>
+      </div>
+
+      <div style="text-align:center; width:200px;">
+        <h3 style="color:#2575fc; margin-top:10px;">⚡ Entrega Imediata</h3>
+        <p style="color:#555; font-size:0.95rem;">Receba seu acesso logo após o pagamento.</p>
+      </div>
+
+      <div style="text-align:center; width:200px;">
+        <h3 style="color:#2575fc; margin-top:10px;">💬 Suporte Confiável</h3>
+        <p style="color:#555; font-size:0.95rem;">Atendimento rápido e humanizado sempre que precisar.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <p>Entre em contato: <a href="https://wa.me/5561996856208" target="_blank">WhatsApp</a></p>
+    <p>Siga-nos: 
+      <a href="https://www.instagram.com/meueb.ook/" target="_blank">Instagram</a> |
+      <a href="#">Facebook</a> |
+      <a href="#">LinkedIn</a>
+    </p>
+    <p>©️ 2025 Bookly. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    const popups = [
+      {
+        title: "Aprenda a Ler Mais Rápido",
+        text: "Descubra como desenvolver o hábito da leitura eficiente! Este eBook ensina técnicas práticas de velocidade e compreensão, ajudando você a ler mais em menos tempo sem perder o foco. Ideal para quem quer estudar melhor, se atualizar mais rápido e absorver conhecimento com clareza."
+      },
+      {
+        title: "Produtividade Máxima",
+        text: "Transforme seus dias com estratégias que realmente funcionam. Aprenda a gerenciar seu tempo, manter o foco e eliminar distrações com métodos usados por profissionais de alto desempenho. Descubra como produzir mais, com menos estresse e de forma equilibrada."
+      },
+      {
+        title: "Mindset de Sucesso",
+        text: "O sucesso começa na mente! Este guia vai te ajudar a criar hábitos positivos, fortalecer sua disciplina e manter a motivação mesmo diante dos desafios. Aprenda a pensar como quem conquista resultados extraordinários."
+      },
+      {
+        title: "Investimento em Criptomoedas",
+        text: "Dê seus primeiros passos com segurança no mercado digital. Entenda como funcionam as criptomoedas, quais são os riscos e as melhores estratégias para investir com consciência. Um guia completo e direto para quem quer começar a lucrar no universo cripto."
+      }
+    ];
+
+    function openPopup(index) {
+      document.getElementById("popupTitle").textContent = popups[index - 1].title;
+      document.getElementById("popupText").textContent = popups[index - 1].text;
+      document.getElementById("popupOverlay").style.display = "flex";
+    }
+
+    function closePopup(event) {
+      if (event.target.classList.contains("popup-overlay") || event.target.classList.contains("close-popup")) {
+        document.getElementById("popupOverlay").style.display = "none";
+      }
+    }
+
+    // ====== BOTÃO DE COMPARTILHAR ======
+    document.getElementById("shareBtn").addEventListener("click", function(event) {
+      event.preventDefault();
+      const shareData = {
+        title: 'aprenda com Bookly',
+        text: 'Confira este site incrível de eBooks profissionais!',
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData)
+          .then(() => console.log('Site compartilhado com sucesso!'))
+          .catch((err) => console.error('Erro ao compartilhar:', err));
+      } else {
+        // Fallback: copiar link para a área de transferência
+        navigator.clipboard.writeText(window.location.href)
+          .then(() => alert('Link copiado para a área de transferência!'))
+          .catch(() => alert('Não foi possível copiar o link.'));
+      }
+    });
+  </script>
+
+</body>
+</html>
