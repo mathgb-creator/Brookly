@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bookly - eBooks Profissionais</title>
+  <meta name="description" content="Transforme sua leitura em conhecimento com nossos eBooks profissionais de produtividade, mindset, investimentos e mais.">
   <style>
     * {
       margin: 0; padding: 0; box-sizing: border-box;
@@ -43,6 +44,7 @@
       justify-content: center;
       padding: 12px 0;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
     }
     nav a {
       margin: 0 20px;
@@ -84,8 +86,8 @@
       gap: 30px;
     }
     .ebook {
-      width: 210px; /* diminuiu um pouco */
-      height: 300px; /* diminuiu um pouco */
+      width: 210px;
+      height: 300px;
       background: linear-gradient(145deg, #2575fc, #6a11cb);
       border-radius: 15px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.15);
@@ -102,13 +104,27 @@
       box-shadow: 0 12px 25px rgba(0,0,0,0.25);
     }
     .ebook h3 {
-      font-size: 1.1rem; /* diminuiu */
+      font-size: 1.1rem;
       margin-bottom: 12px;
-      color: #000; /* título em preto */
+      color: #000;
     }
     .ebook p {
-      font-size: 1rem; /* aumentou um pouco */
-      color: #fff; /* subtítulo branco */
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    /* Selo de novo/lancamento */
+    .selo {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: orange;
+      color: white;
+      font-weight: bold;
+      font-size: 0.85rem;
+      padding: 5px 10px;
+      border-radius: 10px;
     }
 
     /* ====== POPUP ====== */
@@ -121,6 +137,11 @@
       justify-content: center;
       align-items: center;
       z-index: 999;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+    .popup-overlay.hide {
+      opacity: 0;
     }
     .popup {
       background: rgba(37,117,252,0.9);
@@ -147,6 +168,12 @@
       line-height: 1.6;
       color: #f0f0f0;
     }
+    .popup .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
     .popup button {
       background: white;
       color: #2575fc;
@@ -155,7 +182,6 @@
       padding: 12px 25px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 20px;
       transition: background 0.3s;
     }
     .popup button:hover {
@@ -184,6 +210,23 @@
       margin: 0 10px;
     }
     footer a:hover { color: #2575fc; }
+
+    /* ====== RESPONSIVIDADE ====== */
+    @media (max-width: 600px) {
+      .ebook-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+      nav {
+        flex-direction: column;
+      }
+      nav a {
+        margin: 8px 0;
+      }
+      .popup .button-container {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 
@@ -194,7 +237,6 @@
     <p>Transforme sua leitura em conhecimento com nossos eBooks profissionais</p>
   </header>
 
-  <!-- ====== MENU COM BOTÃO DE COMPARTILHAR COM ÍCONE 🔗 ====== -->
   <nav>
     <a href="#about">Sobre</a>
     <a href="#ebooks">eBooks</a>
@@ -204,46 +246,53 @@
 
   <section id="about" class="section about">
     <h2>Sobre o autor</h2>
-    <p>Somos apaixonados por compartilhar conhecimento. Nossos eBooks foram criados com foco em aprendizado prático e conteúdo de qualidade, para ajudar você a evoluir em diferentes áreas da vida.</p>
+    <p>Somos apaixonados por compartilhar conhecimento. Nossos eBooks foram criados com foco em aprendizado prático e conteúdo de qualidade, para ajudar você a evoluir em diferentes áreas da vida. sem ocupar muito do seu tempo.</p>
   </section>
 
-  <!-- ====== SEÇÃO EBOOKS ====== -->
   <section id="ebooks" class="section">
     <h2 style="text-align:center; color:#2575fc; margin-bottom:30px;">Nossos eBooks</h2>
     <div class="ebook-grid">
       <div class="ebook" onclick="openPopup(1)">
         <h3>Aprenda a Ler Mais Rápido</h3>
         <p>Técnicas práticas para ler com foco e agilidade.</p>
+        <div class="selo">Novo</div>
       </div>
 
       <div class="ebook" onclick="openPopup(2)">
         <h3>Produtividade Máxima</h3>
         <p>Estratégias de foco e gestão de tempo.</p>
+        <div class="selo">Em Lançamento</div>
       </div>
 
       <div class="ebook" onclick="openPopup(3)">
         <h3>Mindset de Sucesso</h3>
         <p>Hábitos e atitudes das pessoas de sucesso.</p>
+        <div class="selo">Em Lançamento</div>
       </div>
 
       <div class="ebook" onclick="openPopup(4)">
         <h3>Investimento em Criptomoedas</h3>
         <p>Guia essencial para começar com segurança.</p>
+        <div class="selo">Em Lançamento</div>
       </div>
     </div>
   </section>
 
-  <!-- ====== POPUPS ====== -->
   <div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
     <div class="popup" id="popupBox">
       <span class="close-popup" onclick="closePopup(event)">&times;</span>
       <h3 id="popupTitle"></h3>
       <p id="popupText"></p>
-      <button>Comprar via Pix</button>
+      <div class="button-container">
+        <button id="buyBtnLeft">
+          <img src="https://i0.wp.com/elite.kiwify.com.br/wp-content/uploads/2023/09/logo.png?ssl=1" alt="QI Kiwify" style="height:20px; vertical-align:middle; margin-right:5px;">
+          Comprar
+        </button>
+        <button id="buyBtnRight">Comprar</button>
+      </div>
     </div>
   </div>
 
-  <!-- ====== SEÇÃO SEGURANÇA (VERSÃO ANTIGA) ====== -->
   <section id="security" class="section about" style="background: linear-gradient(135deg, #e3f2fd, #ffffff); border: 1px solid #d0e3ff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-radius: 15px;">
     <h2 style="color:#2575fc; text-align:center; margin-bottom:20px; font-size:2rem;">🔒 Segurança nas Compras</h2>
     <p style="text-align:center; max-width:800px; margin:0 auto; font-size:1.1rem; color:#444; line-height:1.6;">
@@ -301,18 +350,38 @@
     ];
 
     function openPopup(index) {
-      document.getElementById("popupTitle").textContent = popups[index - 1].title;
-      document.getElementById("popupText").textContent = popups[index - 1].text;
-      document.getElementById("popupOverlay").style.display = "flex";
+      const popupOverlay = document.getElementById("popupOverlay");
+      const popupTitle = document.getElementById("popupTitle");
+      const popupText = document.getElementById("popupText");
+      const buyBtnLeft = document.getElementById("buyBtnLeft");
+      const buyBtnRight = document.getElementById("buyBtnRight");
+
+      popupTitle.textContent = popups[index - 1].title;
+      popupText.textContent = popups[index - 1].text;
+
+      if(index === 1) {
+        buyBtnLeft.onclick = () => window.open("https://pay.kiwify.com.br/8fEutAV", "_blank");
+        buyBtnLeft.style.cursor = "pointer";
+      } else {
+        buyBtnLeft.onclick = () => alert("Este eBook ainda não está disponível para compra.");
+        buyBtnLeft.style.cursor = "default";
+      }
+
+      buyBtnRight.onclick = () => alert("Botão sem ação por enquanto.");
+      buyBtnRight.style.cursor = "default";
+
+      popupOverlay.style.display = "flex";
     }
 
     function closePopup(event) {
+      const overlay = document.getElementById("popupOverlay");
       if (event.target.classList.contains("popup-overlay") || event.target.classList.contains("close-popup")) {
-        document.getElementById("popupOverlay").style.display = "none";
+        overlay.classList.add('hide');
+        setTimeout(() => { overlay.style.display = "none"; overlay.classList.remove('hide'); }, 300);
       }
     }
 
-    // ====== BOTÃO DE COMPARTILHAR ======
+    // Compartilhar 🔗
     document.getElementById("shareBtn").addEventListener("click", function(event) {
       event.preventDefault();
       const shareData = {
@@ -326,7 +395,6 @@
           .then(() => console.log('Site compartilhado com sucesso!'))
           .catch((err) => console.error('Erro ao compartilhar:', err));
       } else {
-        // Fallback: copiar link para a área de transferência
         navigator.clipboard.writeText(window.location.href)
           .then(() => alert('Link copiado para a área de transferência!'))
           .catch(() => alert('Não foi possível copiar o link.'));
